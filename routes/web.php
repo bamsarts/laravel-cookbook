@@ -26,3 +26,7 @@ Route::get('shape/triangle', function()
  $shape = new Custom\Shapes\MyShapes;
  return $shape->triangle();
 });
+
+Route::get('userform', function(){
+	return View::make('userform');
+});
