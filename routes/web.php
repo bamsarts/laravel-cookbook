@@ -56,3 +56,24 @@ Validator::extend('honey_pot', function($attribute, $value, $parameters){
 Route::get('userresults', function() {
     return dd(Input::old());
 });
+
+Route::get('fileform', function(){
+	return View::make('fileform');
+});
+
+Route::post('fileform', function(){
+	$rules = array('myfile' => 'mimes:doc,docx,pdf,xlsx|max:1000');
+	$validation = Validator::make(Input::all(), $rules);
+	if ($validation -> fails()) {
+		return Redirect::to('fileform') -> withErrors($validation) -> withInput();
+	}
+	else{
+		$file = Input::file('myfile');
+		if ($file->move('files',$file -> getClientOriginalName())) {
+			return 'Success';
+		}
+		else{
+			return 'Error';
+		}
+	}
+});
